@@ -1,0 +1,19 @@
+{
+    "name": "damianlewis/oc-instagram-plugin",
+    "description": "Instagram feed for OctoberCMS.",
+    "type": "october-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Damian Lewis",
+            "email": "damian@damianlewis.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "composer/installers": "~1.0"
+    }
+}

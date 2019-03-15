@@ -1,0 +1,11 @@
+<h1>Instagram media items</h1>
+
+{% if __SELF__.instagramMediaItems is not empty %}
+    {% for mediaItem in __SELF__.instagramMediaItems %}
+        <a href="{{ mediaItem.link }}">
+            <img src="{{ mediaItem.images.thumbnail.url }}"  alt="">
+        </a>
+    {% endfor %}
+{% else %}
+    <p>{{ __SELF__.noMediaItemsMessage }}</p>
+{% endif %}
