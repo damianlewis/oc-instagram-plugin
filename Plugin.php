@@ -32,9 +32,9 @@ class Plugin extends PluginBase
     public function registerSettings(): array
     {
         return [
-            'api_settings' => [
-                'label'       => 'API Settings',
-                'description' => 'Manage the Instagram API settings.',
+            'api' => [
+                'label'       => 'API',
+                'description' => 'Manage the Instagram API access token.',
                 'category'    => 'Instagram',
                 'icon'        => 'icon-instagram',
                 'class'       => Settings::class,
