@@ -67,7 +67,7 @@ class Feed extends ComponentBase
     protected function getMediaItems()
     {
         try {
-            $data = $this->get('users/self/media/recent', [
+            $response = $this->get('users/self/media/recent', [
                 'count' => $this->getNumberOfItems(),
             ]);
         } catch (InstagramException $exception) {
@@ -76,7 +76,11 @@ class Feed extends ComponentBase
             return null;
         }
 
-        return $data;
+        if (!isset($response->data)) {
+            return null;
+        }
+
+        return $response->data;
     }
 
     /**
@@ -102,8 +106,8 @@ class Feed extends ComponentBase
      * @param string $path
      * @param array  $parameters
      *
-     * @return array
-     * @throws InstagramException
+     * @return \stdClass|null
+     * @throws \DamianLewis\Instagram\Classes\InstagramException
      */
     protected function get(string $path, array $parameters)
     {
@@ -124,11 +128,7 @@ class Feed extends ComponentBase
             }
         }
 
-        if (!isset($response->data)) {
-            throw new InstagramException('No data from instagram response.');
-        }
-
-        return $response->data;
+        return $response;
     }
 
     /**
@@ -156,7 +156,7 @@ class Feed extends ComponentBase
      *
      * @param string $url
      *
-     * @return null|stdClass
+     * @return \stdClass|null
      */
     protected function requestData(string $url)
     {
