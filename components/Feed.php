@@ -6,7 +6,6 @@ use Cms\Classes\ComponentBase;
 use DamianLewis\Instagram\Classes\InstagramException;
 use DamianLewis\Instagram\Models\Settings;
 use Log;
-use stdClass;
 
 class Feed extends ComponentBase
 {
@@ -72,8 +71,6 @@ class Feed extends ComponentBase
             ]);
         } catch (InstagramException $exception) {
             Log::error($exception);
-
-            return null;
         }
 
         if (!isset($response->data)) {
@@ -106,7 +103,7 @@ class Feed extends ComponentBase
      * @param string $path
      * @param array  $parameters
      *
-     * @return \stdClass|null
+     * @return mixed
      * @throws \DamianLewis\Instagram\Classes\InstagramException
      */
     protected function get(string $path, array $parameters)
@@ -115,12 +112,16 @@ class Feed extends ComponentBase
         $response = $this->requestData($url);
 
         if (!$response) {
-            throw new InstagramException('Invalid response from instagram feed.');
+            throw new InstagramException('No response from instagram.');
         }
 
         if (isset($response->meta)) {
             if (isset($response->meta->error_message)) {
                 throw new InstagramException($response->meta->error_message);
+            }
+
+            if (isset($response->meta->error_type)) {
+                throw new InstagramException($response->meta->error_type);
             }
 
             if ($response->meta->code !== 200) {
@@ -156,7 +157,7 @@ class Feed extends ComponentBase
      *
      * @param string $url
      *
-     * @return \stdClass|null
+     * @return mixed
      */
     protected function requestData(string $url)
     {
@@ -171,10 +172,6 @@ class Feed extends ComponentBase
         curl_close($handler);
 
         $response = json_decode($response);
-
-        if (!$response instanceof stdClass) {
-            return null;
-        }
 
         return $response;
     }
