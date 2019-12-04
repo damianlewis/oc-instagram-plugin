@@ -27,34 +27,34 @@ class Feed extends ComponentBase
     public function componentDetails(): array
     {
         return [
-            'name'        => 'User Media Feed',
-            'description' => 'Fetch recent user media items.',
+            'name' => 'User Media Feed',
+            'description' => 'Fetch recent user media items.'
         ];
     }
 
     public function defineProperties(): array
     {
         return [
-            'numberOfItems'       => [
-                'title'             => 'Number of media items',
-                'type'              => 'string',
+            'numberOfItems' => [
+                'title' => 'Number of media items',
+                'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'Invalid format for number of posts value',
-                'default'           => '6',
+                'default' => '6'
             ],
             'noMediaItemsMessage' => [
-                'title'             => 'No media items message',
-                'description'       => 'Message to display when there are no media items to display.',
-                'type'              => 'string',
-                'default'           => 'No media items found',
-                'showExternalParam' => false,
-            ],
+                'title' => 'No media items message',
+                'description' => 'Message to display when there are no media items to display.',
+                'type' => 'string',
+                'default' => 'No media items found',
+                'showExternalParam' => false
+            ]
         ];
     }
 
     public function onRun()
     {
-        $this->mediaItems          = $this->page['instagramMediaItems'] = $this->getMediaItems();
+        $this->mediaItems = $this->page['instagramMediaItems'] = $this->getMediaItems();
         $this->noMediaItemsMessage = $this->page['noMediaItemsMessage'] = $this->property('noMediaItemsMessage');
     }
 
@@ -100,15 +100,15 @@ class Feed extends ComponentBase
     /**
      * Returns the data from the api response.
      *
-     * @param string $path
-     * @param array  $parameters
+     * @param  string  $path
+     * @param  array  $parameters
      *
      * @return mixed
      * @throws \DamianLewis\Instagram\Classes\InstagramException
      */
     protected function get(string $path, array $parameters)
     {
-        $url      = $this->makeApiUrl($path, $parameters);
+        $url = $this->makeApiUrl($path, $parameters);
         $response = $this->requestData($url);
 
         if (!$response) {
@@ -125,7 +125,7 @@ class Feed extends ComponentBase
             }
 
             if ($response->meta->code !== 200) {
-                throw new InstagramException('Response status: ' . $response->meta->code);
+                throw new InstagramException('Response status: '.$response->meta->code);
             }
         }
 
@@ -135,8 +135,8 @@ class Feed extends ComponentBase
     /**
      * Returns the url for the api endpoint.
      *
-     * @param string $path
-     * @param array  $parameters
+     * @param  string  $path
+     * @param  array  $parameters
      *
      * @return string
      */
@@ -149,13 +149,13 @@ class Feed extends ComponentBase
 
         $query = http_build_query($parameters, '', '&');
 
-        return 'https://api.instagram.com/v1/' . $path . '?' . $query;
+        return 'https://api.instagram.com/v1/'.$path.'?'.$query;
     }
 
     /**
      * Sends a request to the given url.
      *
-     * @param string $url
+     * @param  string  $url
      *
      * @return mixed
      */
